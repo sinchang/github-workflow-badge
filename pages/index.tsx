@@ -11,6 +11,7 @@ type Response = { workflows: Workflows }
 
 const Home: NextPage = () => {
   const [repo, setRepo] = useState('actions/setup-node')
+  const [branch, setBranch] = useState('')
   const [workflows, setWorkflows] = useState<Workflows>([])
 
   const fetchRepoInfo = async (
@@ -21,9 +22,13 @@ const Home: NextPage = () => {
       .then((res) => res)
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRepo(e.currentTarget.value)
+  const handleRepoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRepo(e.currentTarget.value?.trim())
     setWorkflows([])
+  }
+
+  const handleBranchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBranch(e.currentTarget.value?.trim())
   }
 
   const handlePreview = async () => {
@@ -47,8 +52,14 @@ const Home: NextPage = () => {
             className='zi-input big search-input'
             placeholder='Repo...'
             value={repo}
-            onChange={handleInputChange}
-          ></input>
+            onChange={handleRepoChange}
+          />
+           <input
+            className='zi-input big search-input'
+            placeholder='Specific branch...'
+            value={branch}
+            onChange={handleBranchChange}
+          />
           <button
             className='zi-btn preview-btn'
             type='button'
@@ -60,11 +71,12 @@ const Home: NextPage = () => {
         <div>
           {
             workflows.map(workflow => {
-              const md = `![${workflow.name}](${workflow.badge_url})`
+              const badgeUrl = `${workflow.badge_url}${branch ? `?branch=${branch}` : ''}`
+              const md = `![${workflow.name}](${badgeUrl})`
               return <div className={styles.badge} key={workflow.id}>
                 <img
                   alt='badge'
-                  src={workflow.badge_url}
+                  src={badgeUrl}
                 />
                 <CodeCopy text={md}>
                   <div className={styles.code}>
