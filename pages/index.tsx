@@ -61,7 +61,7 @@ const Home: NextPage = () => {
           {
             workflows.map(workflow => {
               const md = `![${workflow.name}](${workflow.badge_url})`
-              return <div className={styles.badge}>
+              return <div className={styles.badge} key={workflow.id}>
                 <img
                   alt='badge'
                   src={workflow.badge_url}
