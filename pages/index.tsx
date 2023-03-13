@@ -10,7 +10,7 @@ type Workflows = RestEndpointMethodTypes["actions"]["listRepoWorkflows"]["respon
 type Response = { workflows: Workflows }
 
 const Home: NextPage = () => {
-  const [repo, setRepo] = useState('fastify/help')
+  const [repo, setRepo] = useState('actions/setup-node')
   const [workflows, setWorkflows] = useState<Workflows>([])
 
   const fetchRepoInfo = async (
