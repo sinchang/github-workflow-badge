@@ -72,7 +72,8 @@ const Home: NextPage = () => {
           {
             workflows.map(workflow => {
               const badgeUrl = `${workflow.badge_url}${branch ? `?branch=${branch}` : ''}`
-              const md = `![${workflow.name}](${badgeUrl})`
+              const fullPath = `https://github.com/${repo}/${workflow.path.replace('.github', 'actions')}`
+              const md = `[![${workflow.name}](${badgeUrl})](${fullPath})`
               return <div className={styles.badge} key={workflow.id}>
                 <img
                   alt='badge'
